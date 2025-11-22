@@ -18,7 +18,7 @@ bluetti
 
 ## Supported Powerstations and data
 
-Validated by me
+Validated
 
 |Device Name|total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
 |-----------|---------------------|--------------|--------------|---------------|---------------|
@@ -27,13 +27,15 @@ Validated by me
 |EB3A       |✅                   |✅            |✅            |✅             |✅             |
 |Handsfree 1|✅                   |✅            |✅            |✅             |✅             |
 
-Added and validated by contributors (some are moved here from the HA Integration https://github.com/Patrick762/hassio-bluetti-bt):
+Added and mostly validated by contributors (some are moved here from the HA Integration https://github.com/Patrick762/hassio-bluetti-bt):
 
 |Device Name|Contributor     |total_battery_percent|dc_input_power|ac_input_power|dc_output_power|ac_output_power|
 |-----------|----------------|---------------------|--------------|--------------|---------------|---------------|
 |AC2A       |@ruanmed        |✅                   |✅            |✅            |✅             |✅             |
 |AC60       |@mzpwr          |✅                   |✅            |✅            |✅             |✅             |
 |AC60P      |@mzpwr          |✅                   |✅            |✅            |✅             |✅             |
+|AC70P      |@matthewpucc    |✅                   |❌            |❌            |❌             |❌             |
+|AC180P     |@Patrick762     |✅                   |✅            |✅            |✅             |✅             |
 
 ## Controls
 
