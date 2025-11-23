@@ -20,6 +20,8 @@ class FieldName(Enum):
     AC_P3_POWER = "ac_p3_power"
     AC_P3_VOLTAGE = "ac_p3_voltage"
     BATTERY_SOC = "total_battery_percent"
+    CTRL_AC = "ctrl_ac"
+    CTRL_DC = "ctrl_dc"
     DC_INPUT_POWER = "dc_input_power"
     DC_OUTPUT_ON = "dc_output_on"
     DC_OUTPUT_POWER = "dc_output_power"

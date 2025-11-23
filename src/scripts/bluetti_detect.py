@@ -1,4 +1,4 @@
-"""Bluetti BT commands."""
+"""Bluetti detect command."""
 
 import argparse
 import asyncio

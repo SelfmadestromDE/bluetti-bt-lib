@@ -38,6 +38,12 @@ options:
   -h, --help  show this help message and exit
 ```
 
+Example:
+
+```bash
+bluetti-detect 00:00:00:00:00:00
+```
+
 ### Read device data for supported devices
 
 ```bash
@@ -51,6 +57,38 @@ options:
   -t TYPE, --type TYPE  Type of the powerstation (AC70 f.ex.)
   -e ENCRYPTION, --encryption ENCRYPTION
                         Add this if encryption is needed
+```
+
+Example:
+
+```bash
+bluetti-read -m 00:00:00:00:00:00 -t AC70
+```
+
+### Write to supported device
+
+```bash
+usage: bluetti-write [-h] [-m MAC] [-t TYPE] [--on ON] [--off OFF] [-e ENCRYPTION] field
+
+Write to bluetti device
+
+positional arguments:
+  field                 Field name (ctrl_dc f.ex.)
+
+options:
+  -h, --help            show this help message and exit
+  -m MAC, --mac MAC     Mac-address of the powerstation
+  -t TYPE, --type TYPE  Type of the powerstation (EB3A f.ex.)
+  --on ON               Value to write
+  --off OFF             Value to write
+  -e ENCRYPTION, --encryption ENCRYPTION
+                        Add this if encryption is needed
+```
+
+Example:
+
+```bash
+bluetti-write -m 00:00:00:00:00:00 -t EB3A --on on ctrl_ac
 ```
 
 ## Supported Powerstations and data
@@ -86,7 +124,13 @@ Added and mostly validated by contributors (some are moved here from the HA Inte
 
 ## Controls
 
-Controls will be migrated to this library soon
+Currently only "switches" are supported
+
+Validated
+
+|Device Name|ctrl_ac|ctrl_dc|
+|-----------|-------|-------|
+|EB3A       |✅     |✅     |
 
 ## Battery pack data
 

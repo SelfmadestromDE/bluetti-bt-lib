@@ -1,7 +1,7 @@
-from typing import List
+from typing import Any, List
 
-from ..registers import ReadableRegisters, DeviceRegister
-from ..fields import DeviceField
+from ..registers import ReadableRegisters, WriteableRegister
+from ..fields import DeviceField, EnumField, BoolField
 
 
 class BluettiDevice:
@@ -47,3 +47,15 @@ class BluettiDevice:
             parsed[f.name] = f.parse(field_data)
 
         return parsed
+
+    def build_write_command(self, name: str, value: Any) -> WriteableRegister:
+        matches = [f for f in self.fields if f.name == name]
+        field = next(f for f in matches if f.is_writeable)
+
+        # Convert value to an integer
+        if isinstance(field, EnumField):
+            value = field.enum[value].value
+        elif isinstance(field, BoolField):
+            value = 1 if value else 0
+
+        return WriteableRegister(field.address, value)

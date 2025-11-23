@@ -25,23 +25,20 @@ class DeviceReader:
         bleak_client: BleakClient,
         bluetti_device: BluettiDevice,
         future_builder_method: Callable[[], asyncio.Future[Any]],
-        config: DeviceReaderConfig | None = None,
+        config: DeviceReaderConfig = DeviceReaderConfig(),
+        lock: asyncio.Lock = asyncio.Lock(),
     ):
         self.client = bleak_client
         self.bluetti_device = bluetti_device
         self.create_future = future_builder_method
-
-        if config is not None:
-            self.config = config
-        else:
-            self.config = DeviceReaderConfig()
+        self.config = config
+        self.polling_lock = lock
 
         self.has_notifier = False
         self.current_registers = None
         self.notify_response = bytearray()
         self.notify_future: asyncio.Future[Any] | None = None
         self.encryption = BluettiEncryption()
-        self.polling_lock = asyncio.Lock()
 
     async def read(
         self, only_registers: List[ReadableRegisters] | None = None

@@ -8,5 +8,6 @@ from .EnumField import *
 from .IntField import *
 from .StringField import *
 from .SwapStringField import *
+from .SwitchField import *
 from .UIntField import *
 from .VersionField import *

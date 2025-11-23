@@ -11,3 +11,9 @@ class DeviceField:
 
     def parse(self, data: bytes) -> Any:
         raise NotImplementedError
+
+    def is_writeable(self) -> bool:
+        return False
+
+    def allowed_write_type(self, value: Any) -> bool:
+        return False
