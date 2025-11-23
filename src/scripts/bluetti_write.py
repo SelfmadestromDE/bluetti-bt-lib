@@ -44,6 +44,7 @@ def start():
     )
     parser.add_argument("--on", type=bool, help="Value to write")
     parser.add_argument("--off", type=bool, help="Value to write")
+    parser.add_argument("-v", "--value", type=int, help="Value to write")
     parser.add_argument(
         "-e", "--encryption", type=bool, help="Add this if encryption is needed"
     )
@@ -55,13 +56,16 @@ def start():
         return
 
     # No value given
-    if args.on is None and args.off is None:
+    if args.on is None and args.off is None and args.value is None:
         parser.print_help()
         return
 
     value = args.on is not None
     if args.off is not None:
         value = False
+
+    if args.value:
+        value = args.value
 
     asyncio.run(
         async_write(

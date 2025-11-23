@@ -68,7 +68,7 @@ bluetti-read -m 00:00:00:00:00:00 -t AC70
 ### Write to supported device
 
 ```bash
-usage: bluetti-write [-h] [-m MAC] [-t TYPE] [--on ON] [--off OFF] [-e ENCRYPTION] field
+usage: bluetti-write [-h] [-m MAC] [-t TYPE] [--on ON] [--off OFF] [-v VALUE] [-e ENCRYPTION] field
 
 Write to bluetti device
 
@@ -78,9 +78,11 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -m MAC, --mac MAC     Mac-address of the powerstation
-  -t TYPE, --type TYPE  Type of the powerstation (EB3A f.ex.)
+  -t TYPE, --type TYPE  Type of the powerstation (AC70 f.ex.)
   --on ON               Value to write
   --off OFF             Value to write
+  -v VALUE, --value VALUE
+                        Value to write (integer, see enum for value)
   -e ENCRYPTION, --encryption ENCRYPTION
                         Add this if encryption is needed
 ```
