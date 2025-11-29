@@ -2,7 +2,7 @@
 
 import argparse
 import asyncio
-from bleak import BleakClient
+import logging
 
 from ..bluetooth.device_reader import DeviceReader, DeviceReaderConfig
 from ..utils.device_builder import build_device
@@ -52,5 +52,7 @@ def start():
     if args.mac is None or args.type is None:
         parser.print_help()
         return
+    
+    logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(async_read_device(args.mac, args.type, args.encryption))

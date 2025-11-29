@@ -2,6 +2,7 @@
 
 import argparse
 import asyncio
+import logging
 from typing import Any
 from bleak import BleakClient
 
@@ -66,6 +67,8 @@ def start():
 
     if args.value:
         value = args.value
+
+    logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(
         async_write(

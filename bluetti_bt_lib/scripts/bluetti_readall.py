@@ -40,7 +40,6 @@ async def async_read_device(address: str, iot_version: int, encryption: bool):
     register_data = {}
     for key, value in data.items():
         register_data[key] = value.hex()
-        print("{}: {}".format(key, value))
 
     data_obj = {
         "mac": address,
@@ -48,8 +47,6 @@ async def async_read_device(address: str, iot_version: int, encryption: bool):
         "encryption": encryption,
         "registers": register_data,
     }
-
-    # TODO add bytes to data_obj
 
     with open("bluetti_data.{}.json".format(address.replace(":", "-")), "w") as f:
         json.dump(data_obj, f)
@@ -71,6 +68,6 @@ def start():
 
     encryption = False if args.encryption is None else True
 
-    logging.basicConfig()
+    logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(async_read_device(args.mac, args.version, encryption))

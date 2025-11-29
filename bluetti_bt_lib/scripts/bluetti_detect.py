@@ -2,6 +2,7 @@
 
 import argparse
 import asyncio
+import logging
 
 from ..bluetooth.device_recognizer import recognize_device
 
@@ -35,5 +36,7 @@ def start():
     if args.mac is None:
         parser.print_help()
         return
+    
+    logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(async_detect_device(args.mac))

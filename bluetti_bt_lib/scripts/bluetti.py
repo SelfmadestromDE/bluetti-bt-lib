@@ -1,6 +1,7 @@
 """Bluetti BT commands."""
 
 import asyncio
+import logging
 from typing import List
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
@@ -77,6 +78,8 @@ async def scan_async():
 
 def start():
     """Entrypoint."""
+    logging.basicConfig(level=logging.DEBUG)
+
     asyncio.run(scan_async())
 
     print("done")

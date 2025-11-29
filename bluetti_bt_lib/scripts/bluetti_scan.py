@@ -2,6 +2,7 @@
 
 import argparse
 import asyncio
+import logging
 from typing import List
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
@@ -32,5 +33,7 @@ def start():
         description="Detect bluetti devices by bluetooth name"
     )
     parser.parse_args()
+
+    logging.basicConfig(level=logging.DEBUG)
 
     asyncio.run(scan_async())
