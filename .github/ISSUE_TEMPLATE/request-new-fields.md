@@ -22,6 +22,7 @@ Device type (EB3A f.ex.):
 
 Device field name (PV String 1 Power f.ex.): 
 Device field register: 
+Device field size:
 Device field data type (see [fields](https://github.com/Patrick762/bluetti-bt-lib/tree/main/bluetti_bt_lib/fields)):
 
 <!-- You can add more fields like above -->
