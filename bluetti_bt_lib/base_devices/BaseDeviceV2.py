@@ -12,7 +12,7 @@ class BaseDeviceV2(BluettiDevice):
             [
                 SwapStringField(FieldName.DEVICE_TYPE, 110, 6),
                 SerialNumberField(FieldName.DEVICE_SN, 116),
-                UIntField(FieldName.BATTERY_SOC, 102),
+                UIntField(FieldName.BATTERY_SOC, 102, min=0, max=100),
             ]
             + additional_fields,
         )

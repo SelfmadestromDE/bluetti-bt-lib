@@ -17,3 +17,6 @@ class DeviceField:
 
     def allowed_write_type(self, value: Any) -> bool:
         return False
+
+    def in_range(self, value: Any) -> bool:
+        return True

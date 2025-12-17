@@ -12,7 +12,7 @@ class BaseDeviceV1(BluettiDevice):
             [
                 StringField(FieldName.DEVICE_TYPE, 10, 6),
                 SerialNumberField(FieldName.DEVICE_SN, 17),
-                UIntField(FieldName.BATTERY_SOC, 43),
+                UIntField(FieldName.BATTERY_SOC, 43, min=0, max=100),
                 UIntField(FieldName.DC_INPUT_POWER, 36),
                 UIntField(FieldName.AC_INPUT_POWER, 37),
                 UIntField(FieldName.AC_OUTPUT_POWER, 38),

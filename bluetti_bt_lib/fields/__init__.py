@@ -4,7 +4,6 @@ from .FieldUnit import *
 
 from .BoolField import *
 from .DecimalField import *
-from .DecimalArrayField import *
 from .EnumField import *
 from .IntField import *
 from .SelectField import *

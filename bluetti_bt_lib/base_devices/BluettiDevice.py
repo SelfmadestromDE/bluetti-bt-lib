@@ -50,7 +50,10 @@ class BluettiDevice:
         for f in fields:
             data_start = 2 * (f.address - starting_address)
             field_data = data[data_start : data_start + 2 * f.size]
-            parsed[f.name] = f.parse(field_data)
+            value = f.parse(field_data)
+            if not f.in_range(value):
+                continue
+            parsed[f.name] = value
 
         return parsed
 
