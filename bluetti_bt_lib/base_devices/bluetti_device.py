@@ -62,8 +62,8 @@ class BluettiDevice:
         field = next(f for f in matches if f.is_writeable)
 
         # Convert value to an integer
-        if isinstance(field, EnumField):
-            value = field.enum[value].value
+        if isinstance(field, SelectField):
+            value = field.e[value].value
         elif isinstance(field, BoolField):
             value = 1 if value else 0
 

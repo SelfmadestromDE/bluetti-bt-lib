@@ -54,3 +54,4 @@ class TestDeviceFields(unittest.TestCase):
     def test_select(self):
         field = SelectField(FieldName.CTRL_ECO_TIME_MODE, 3064, EcoMode)
         self.assertEqual(field.parse(bytes([0, 4])), EcoMode.HOURS4)
+        self.assertEqual(field.e["HOURS2"].value, 2)
