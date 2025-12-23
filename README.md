@@ -39,7 +39,7 @@ Added and mostly validated by contributors (some are moved here from the HA Inte
 |AC200PL    |@0x4E4448       |✅                   |✅            |✅            |✅             |✅             |
 |AC300      |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
 |AC500      |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
-|AP300      |@seaburger      |✅                   |✅            |✅            |✅             |✅             |
+|AP300      |@seaburger      |✅                   |✅            |✅            |❌             |✅             |
 |EL100V2    |@seaburger      |✅                   |✅            |✅            |✅             |✅             |
 |EP500      |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
 |EP500P     |bluetti-mqtt    |✅                   |✅            |✅            |✅             |✅             |
