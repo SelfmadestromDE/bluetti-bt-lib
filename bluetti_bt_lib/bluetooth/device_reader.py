@@ -7,11 +7,10 @@ from bleak.exc import BleakError
 from bleak_retry_connector import BleakClientWithServiceCache, establish_connection
 
 from .encryption import BluettiEncryption, Message, MessageType
-from ..registers import ReadableRegisters
-from ..const import NOTIFY_UUID, WRITE_UUID
 from ..base_devices import BluettiDevice
-
-_LOGGER = logging.getLogger(__name__)
+from ..const import NOTIFY_UUID, WRITE_UUID
+from ..registers import ReadableRegisters
+from ..utils.privacy import mac_loggable
 
 
 class DeviceReaderConfig:
@@ -35,6 +34,10 @@ class DeviceReader:
         self.config = config
         self.polling_lock = lock
 
+        self.logger = logging.getLogger(
+            f"{__name__}.{mac_loggable(mac).replace(':', '_')}"
+        )
+
         self.device = None
         self.client = None
 
@@ -55,21 +58,21 @@ class DeviceReader:
 
         parsed_data: dict = {}
 
-        _LOGGER.debug("Reading device registers")
+        self.logger.debug("Reading device registers")
 
         async with self.polling_lock:
             try:
                 async with async_timeout.timeout(self.config.timeout):
-                    _LOGGER.debug("Searching for %s", self.mac)
+                    self.logger.debug("Searching for device")
                     self.device = await BleakScanner.find_device_by_address(
                         self.mac, timeout=5
                     )
 
                     if self.device is None:
-                        _LOGGER.error("Device not found")
+                        self.logger.error("Device not found")
                         return
 
-                    _LOGGER.debug("Connecting to %s", self.mac)
+                    self.logger.debug("Connecting to device")
 
                     self.client = await establish_connection(
                         BleakClientWithServiceCache,
@@ -78,7 +81,7 @@ class DeviceReader:
                         max_attempts=10,
                     )
 
-                    _LOGGER.debug("Connected to device")
+                    self.logger.debug("Connected to device")
 
                     if not self.has_notifier:
                         await self.client.start_notify(
@@ -86,21 +89,21 @@ class DeviceReader:
                         )
                         self.has_notifier = True
 
-                    _LOGGER.debug("Notification handler setup complete")
+                    self.logger.debug("Notification handler setup complete")
 
                     while (
                         self.config.use_encryption
                         and not self.encryption.is_ready_for_commands
                     ):
                         await asyncio.sleep(5)
-                        _LOGGER.debug("Encryption handshake not finished yet")
+                        self.logger.debug("Encryption handshake not finished yet")
 
                     for register in registers:
                         body = register.parse_response(
                             await self._async_send_command(register)
                         )
 
-                        _LOGGER.debug("Raw data: %s", body)
+                        self.logger.debug("Raw data: %s", body)
 
                         if raw:
                             d = {}
@@ -112,31 +115,31 @@ class DeviceReader:
                             register.starting_address, body
                         )
 
-                        _LOGGER.debug("Parsed data: %s", parsed)
+                        self.logger.debug("Parsed data: %s", parsed)
 
                         parsed_data.update(parsed)
 
             except TimeoutError:
-                _LOGGER.warning("Timeout")
+                self.logger.warning("Timeout")
                 return None
             except BleakError as err:
-                _LOGGER.warning("Bleak error: %s", err)
+                self.logger.warning("Bleak error: %s", err)
                 return None
             except BaseException as err:
-                _LOGGER.warning("Unknown error %s", err)
+                self.logger.warning("Unknown error %s", err)
                 return None
             finally:
                 if self.has_notifier:
                     try:
                         await self.client.stop_notify(NOTIFY_UUID)
-                        _LOGGER.debug("Stopped notifier")
+                        self.logger.debug("Stopped notifier")
                     except:
                         # Ignore errors here
                         pass
                     self.has_notifier = False
                 if self.client:
                     await self.client.disconnect()
-                    _LOGGER.debug("Disconnected from device")
+                    self.logger.debug("Disconnected from device")
 
             # Reset Encryption keys
             self.encryption.reset()
@@ -167,22 +170,22 @@ class DeviceReader:
             # Make request
             await self.client.write_gatt_char(WRITE_UUID, command_bytes)
 
-            _LOGGER.debug("Request sent (%s)", registers)
+            self.logger.debug("Request sent (%s)", registers)
 
             # Wait for response
             res = await asyncio.wait_for(self.notify_future, timeout=5)
 
-            _LOGGER.debug("Got response")
+            self.logger.debug("Got response")
 
             return cast(bytes, res)
         except:
-            _LOGGER.warning("Error while reading data")
+            self.logger.warning("Error while reading data")
 
         return bytes()
 
     async def _notification_handler(self, _: int, data: bytearray):
         """Handle bt data."""
-        _LOGGER.debug("Got new data")
+        self.logger.debug("Got new data")
 
         if self.config.use_encryption is True:
             message = Message(data)
@@ -196,11 +199,13 @@ class DeviceReader:
                     return
 
                 if message.type == MessageType.CHALLENGE_ACCEPTED:
-                    _LOGGER.debug("Challenge accepted")
+                    self.logger.debug("Challenge accepted")
                     return
 
             if self.encryption.unsecure_aes_key is None:
-                _LOGGER.error("Received encrypted message before key initialization")
+                self.logger.error(
+                    "Received encrypted message before key initialization"
+                )
 
             key, iv = self.encryption.getKeyIv()
             decrypted = Message(self.encryption.aes_decrypt(message.buffer, key, iv))
@@ -222,4 +227,8 @@ class DeviceReader:
 
         # Save data
         self.notify_response.extend(data)
+
+        if self.notify_future is None:
+            return
+
         self.notify_future.set_result(self.notify_response)

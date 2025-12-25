@@ -5,7 +5,6 @@ import async_timeout
 from bleak import BleakClient
 from bleak.exc import BleakError
 
-from ..fields import FieldName
 from ..const import WRITE_UUID
 from ..base_devices import BluettiDevice
 
