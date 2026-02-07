@@ -14,7 +14,7 @@ DESCRIPTION = "Bluetti BT"
 
 # Setting up
 setup(
-    name="bluetti-bt-lib",
+    name="bluetti-bt-lib-selfmadestrom",
     version=VERSION,
     author="SelfmadestromDE",
     author_email="<pip-bluetti-bt-lib@hosting-rt.de>",
