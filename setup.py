@@ -16,12 +16,12 @@ DESCRIPTION = "Bluetti BT"
 setup(
     name="bluetti-bt-lib",
     version=VERSION,
-    author="Patrick762",
+    author="SelfmadestromDE",
     author_email="<pip-bluetti-bt-lib@hosting-rt.de>",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
-    url="https://github.com/Patrick762/bluetti-bt-lib",
+    url="https://github.com/SelfmadestromDE/bluetti-bt-lib",
     packages=find_packages(),
     install_requires=[
         "async_timeout",
